@@ -1,8 +1,8 @@
 import Koa from 'koa';
-let app = new Koa();
+import router from './router';
 
-app.use(ctx => {
-  ctx.body = 'Hello World';
-});
+const app = new Koa();
+
+app.use(router.routes());
 
 app.listen(3000);
