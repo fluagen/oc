@@ -1,3 +1,5 @@
+import {TopicModel} from '../model/index';
+
 class Topic {
 
   list(ctx, next) {
