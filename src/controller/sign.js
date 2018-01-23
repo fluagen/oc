@@ -1,13 +1,18 @@
 import { UserModel } from "../model/index";
 
 class Sign {
-  signup(ctx, next) {
-    let userVO = ctx.request.query;
-    ctx.response.body = userVO.loginid;
-
+  signup (ctx, next) {
+    let userVO = ctx.request.body;
+    console.log(userVO);
     let user = new UserModel();
     user.loginid = userVO.loginid;
-    user.save();
+    user.name = userVO.name;
+    user.password = userVO.password;
+    user.email = userVO.email;
+    user.save().then(() => {
+      console.log("signup successful")
+    ctx.body = "signup successful";
+  } ).catch(e => console.log(e));
   }
 
   signin(ctx, next) {
@@ -15,6 +20,6 @@ class Sign {
   }
 }
 
-var sign = new Sign();
+const sign = new Sign();
 
 export default sign;

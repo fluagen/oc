@@ -10,6 +10,6 @@ router.get('/', (ctx, next) => {
 });
 
 router.get('/topic', topic.list);
-router.get('/signup', sign.signup);
+router.post('/signup', sign.signup);
 
 export default router;
