@@ -8,6 +8,4 @@ class Topic {
 
 }
 
-let topic = new Topic();
-
-export default topic;
+export default Topic;

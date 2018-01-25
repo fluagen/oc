@@ -15,9 +15,12 @@
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.1.1",
     "koa": "^2.4.1",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.3.0",
+    "lodash": "^4.17.4",
     "mongoose": "^5.0.1",
     "validator": "^9.2.0"
   }
