@@ -1,5 +1,5 @@
 import { UserModel } from "../model/index";
-import RstResult from "../common/RstResult";
+import ResponseResult from "../common/ResponseResult";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import _ from "lodash";
@@ -30,7 +30,7 @@ class Sign {
       !validator.matches(loginid, loginid_exp) ||
       !validator.isLength(loginid, { min: 5, max: 15 })
     ) {
-      ctx.body = new RstResult(
+      ctx.body = ResponseResult.info(
         100110,
         "登录名需要5到15位字符，只能包含字母、数字、下划线，以字母开头。"
       );
@@ -39,17 +39,17 @@ class Sign {
 
     //1.2 验证email
     if (!validator.isEmail(email)) {
-      ctx.body = new RstResult(100120, "email不合法");
+      ctx.body = ResponseResult.info(100120, "email不合法");
       return;
     }
 
     //1.3 验证密码
     if (passwd !== repasswd) {
-      ctx.body = new RstResult(100130, "两次输入的密码不一致");
+      ctx.body = ResponseResult.info(100130, "两次输入的密码不一致");
       return;
     }
     if (passwd.length < 6) {
-      ctx.body = new RstResult(100131, "密码至少需要6个字符");
+      ctx.body = ResponseResult.info(100131, "密码至少需要6个字符");
       return;
     }
 
@@ -61,26 +61,26 @@ class Sign {
     user.passwd = hash;
     user.email = email;
 
-    await user.save()
-    ctx.body = new RstResult(100000, "");
+    await user.save();
+    ctx.body = ResponseResult.ok({});
   }
 
   async signin(ctx, next) {
     let req = ctx.request.body;
     let loginid = req.loginid;
     let passwd = req.passwd;
-    let user = await UserModel.findOne({ "loginid":loginid });
+    let user = await UserModel.findOne({ loginid: loginid });
 
     if (!user) {
-      ctx.body = new RstResult(100140, "用户名或密码错误");
+      ctx.body = ResponseResult.info(100140, "用户名或密码错误");
       return;
     }
 
     if (await bcrypt.compare(passwd, user.passwd)) {
-      let token = jwt.sign({ "userid":loginid }, "occc");
-      ctx.body = new RstResult(100000, token);
+      let token = jwt.sign({ userid: loginid }, "occc");
+      ctx.body = ResponseResult.ok({ token: token });
     } else {
-      ctx.body = new RstResult(100140, "用户名或密码错误"+user.passwd);
+      ctx.body = ResponseResult.info(100140, "用户名或密码错误");
     }
   }
 }
