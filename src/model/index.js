@@ -1,11 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-mongoose.connect('mongodb://localhost/oc');
+mongoose.connect("mongodb://localhost/oc");
 
 import "./user";
 import "./topic";
 
-var UserModel = mongoose.model('User');
-var TopicModel = mongoose.model('Topic');
+var UserModel = mongoose.model("User");
+var TopicModel = mongoose.model("Topic");
 
-export {UserModel, TopicModel};
+export { UserModel, TopicModel };

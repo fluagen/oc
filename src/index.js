@@ -1,9 +1,8 @@
-import Koa from 'koa';
-import bodyParser from 'koa-bodyparser';
-import router from './router';
+import Koa from "koa";
+import bodyParser from "koa-bodyparser";
+import router from "./router";
 
 const app = new Koa();
-
 
 app.use(bodyParser());
 
@@ -11,7 +10,6 @@ app.use(async (ctx, next) => {
   try {
     await next();
   } catch (err) {
-    // will only respond with JSON
     ctx.status = err.statusCode || err.status || 500;
     ctx.body = err.message;
   }

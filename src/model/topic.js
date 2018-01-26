@@ -1,21 +1,51 @@
-import mongoose from 'mongoose';
-let Schema    = mongoose.Schema;
+import mongoose from "mongoose";
+let Schema = mongoose.Schema;
+let ObjectId = Schema.ObjectId;
 
 let TopicSchema = new Schema({
-  loginid: { type: String},
-  name: { type: String},
-  passwd: { type: String },
-  email: { type: String},
-  pagehome: { type: String },
-  avatar: { type: String },
-  signature: { type: String },
-
-  topic_count: { type: Number, default: 0 },
-  reply_count: { type: Number, default: 0 },
+  title: { type: String },
+  content: { type: String },
+  author_id: { type: String },
+  group_id: { type: String },
+  top: { type: Boolean, default: false }, // 置顶帖
+  good: { type: Boolean, default: false }, // 精华帖
+  lock: { type: Boolean, default: false }, // 被锁定主题
+  deleted: { type: Boolean, default: false },
   create_at: { type: Date, default: Date.now },
   update_at: { type: Date, default: Date.now },
 
-  active: {type: Boolean, default: true}
+  reply_count: { type: Number, default: 0 },
+  visit_count: { type: Number, default: 0 },
+
+  followers: [
+    {
+      id: {
+        type: String
+      },
+      create_at: {
+        type: Date,
+        default: Date.now
+      }
+    }
+  ],
+
+  collectors: [
+    {
+      id: {
+        type: String
+      },
+      create_at: {
+        type: Date,
+        default: Date.now
+      }
+    }
+  ],
+
+  last_reply_id: { type: ObjectId },
+  last_reply_author: { type: String },
+  last_reply_at: { type: Date, default: Date.now }
+
+
 });
 
-mongoose.model('Topic', TopicSchema);
+mongoose.model("Topic", TopicSchema);

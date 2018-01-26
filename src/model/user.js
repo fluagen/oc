@@ -1,11 +1,11 @@
-import mongoose from 'mongoose';
-let Schema    = mongoose.Schema;
+import mongoose from "mongoose";
+let Schema = mongoose.Schema;
 
 let UserSchema = new Schema({
-  loginid: { type: String},
-  name: { type: String},
+  loginid: { type: String },
+  name: { type: String },
   passwd: { type: String },
-  email: { type: String},
+  email: { type: String },
   pagehome: { type: String },
   avatar: { type: String },
   signature: { type: String },
@@ -15,7 +15,7 @@ let UserSchema = new Schema({
   create_at: { type: Date, default: Date.now },
   update_at: { type: Date, default: Date.now },
 
-  active: {type: Boolean, default: true}
+  active: { type: Boolean, default: true }
 });
 
-mongoose.model('User', UserSchema);
+mongoose.model("User", UserSchema);
