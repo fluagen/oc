@@ -12,6 +12,17 @@ class Topic {
     ctx.body = ResponseResult.ok(topics);
   }
 
+  async put(ctx, next){
+
+    let topicObj = new TopicModel();
+    user.loginid = loginid;
+    user.passwd = hash;
+    user.email = email;
+
+
+TopicModel.save();
+  }
+
 }
 
 export default Topic;

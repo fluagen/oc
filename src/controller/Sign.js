@@ -10,6 +10,7 @@ let salt = bcrypt.genSaltSync(10);
 class Sign {
   async signup(ctx, next) {
     let req = ctx.request.body;
+    console.log(req.loginid);
     let loginid = req.loginid;
     let passwd = req.passwd;
     let repasswd = req.repasswd;
