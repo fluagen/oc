@@ -11,8 +11,10 @@ router.get('/', (ctx, next) => {
   ctx.body = 'Hello World';
 });
 
-router.get('/topic', topic.list);
+
 router.post('/signup', sign.signup);
 router.post('/signin', sign.signin);
+router.get('/topic', topic.list);
+router.post('/topic', topic.put);
 
 export default router;
