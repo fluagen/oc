@@ -4,7 +4,7 @@ let ObjectId = Schema.ObjectId;
 
 let TopicSchema = new Schema({
   title: { type: String },
-  content: { type: String },
+  t_content: { type: String },
   author_id: { type: String },
   group_id: { type: String },
   top: { type: Boolean, default: false }, // 置顶帖
