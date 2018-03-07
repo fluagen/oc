@@ -1,5 +1,3 @@
-import jwt from "jsonwebtoken";
-
 import { TopicModel } from "../model/index";
 import ResponseResult from "../common/ResponseResult";
 
@@ -27,7 +25,7 @@ class Topic {
     topic.title = title;
     topic.t_content = t_content;
     await topic.save();
-    ctx.body = ResponseResult.ok({"tid":topic.id});
+    ctx.body = ResponseResult.ok({ tid: topic.id });
   }
 }
 
