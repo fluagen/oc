@@ -1,9 +1,11 @@
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";
 import jwtKoa from "koa-jwt";
+import cors from "koa2-cors";
 import router from "./router";
 
 const app = new Koa();
+app.use(cors());
 
 app.use(bodyParser());
 app.use(jwtKoa({secret: 'occc' }).unless({
