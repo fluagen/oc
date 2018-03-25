@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import utility from "utility";
 let Schema = mongoose.Schema;
 
 let UserSchema = new Schema({
@@ -16,6 +17,15 @@ let UserSchema = new Schema({
   update_at: { type: Date, default: Date.now },
 
   active: { type: Boolean, default: true }
+});
+
+UserSchema.virtual("avatar_url").get(function() {
+  var url =
+    this.avatar ||
+    "//cdn.v2ex.co/gravatar/" +
+      utility.md5(this.email.toLowerCase()) +
+      "?d=retro";
+  return url;
 });
 
 mongoose.model("User", UserSchema);

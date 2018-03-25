@@ -24,6 +24,7 @@
     "koa2-cors": "^2.0.5",
     "lodash": "^4.17.4",
     "mongoose": "^5.0.1",
+    "utility": "^1.13.1",
     "validator": "^9.2.0"
   }
 }

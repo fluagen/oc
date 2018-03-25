@@ -1,19 +1,38 @@
-import { TopicModel } from '../model/index';
-import ResponseResult from '../common/ResponseResult';
+import { TopicModel, ReplyModel, UserModel } from "../model/index";
+import ResponseResult from "../common/ResponseResult";
 
 class Topic {
   async list(ctx, next) {
     let topics = await TopicModel.find({ deleted: false })
-      .sort('-last_reply_at -create_at')
+      .lean()
+      .sort("-last_reply_at -create_at")
       .exec();
 
-    ctx.body = ResponseResult.ok(topics);
+    if (topics) {
+      topics = await Promise.all(topics.map(async topic => {
+        let reply_id = topic.last_reply_id;
+        let topicAuthor = await UserModel.findOne({ loginid: topic.author_id });
+        topic.author = topicAuthor;
+        if (reply_id) {
+          let reply = await ReplyModel.findById(reply_id).lean();
+          let replyAuthor = await UserModel.findOne({
+            loginid: reply.author_id
+          });
+          topic.lastReply = reply;
+          topic.lastReply.author = replyAuthor;
+        }
+        return topic;
+      }));
+      console.log(topics);
+    }
+
+    ctx.body = ResponseResult.ok({ topics: topics });
   }
 
   async put(ctx, next) {
     let user = ctx.state.user;
     if (!user) {
-      ctx.throw(500, '非法的请求');
+      ctx.throw(500, "非法的请求");
     }
 
     let req = ctx.request.body;
@@ -31,7 +50,7 @@ class Topic {
   async get(ctx, next) {
     let tid = ctx.params.tid;
     let topic = await TopicModel.findById(tid).exec();
-    if(!topic){
+    if (!topic) {
       ctx.throw(404);
     }
     ctx.body = ResponseResult.ok({ topic: topic });

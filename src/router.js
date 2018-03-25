@@ -13,7 +13,7 @@ router.get('/', (ctx, next) => {
 
 router.post('/signup', sign.signup);
 router.post('/signin', sign.signin);
-router.get('/topics', topic.list);
+router.get('/public/topics', topic.list);
 router.post('/topic', topic.put);
 router.get('/public/topic/:tid', topic.get);
 
