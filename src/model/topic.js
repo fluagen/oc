@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 let Schema = mongoose.Schema;
 let ObjectId = Schema.ObjectId;
 
@@ -42,10 +42,8 @@ let TopicSchema = new Schema({
   ],
 
   last_reply_id: { type: ObjectId },
-  last_reply_author: { type: String },
+  last_reply_author_id: { type: String },
   last_reply_at: { type: Date, default: Date.now }
-
-
 });
 
-mongoose.model("Topic", TopicSchema);
+mongoose.model('Topic', TopicSchema);
