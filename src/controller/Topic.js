@@ -65,10 +65,20 @@ class Topic {
 
   async get(ctx, next) {
     let tid = ctx.params.tid;
-    let topic = await TopicModel.findById(tid).exec();
+    let topic = await TopicModel.findById(tid).lean().exec();
     if (!topic) {
       ctx.throw(404);
     }
+    let group = await GroupModel.findOne({ code: topic.group_id });
+    topic.group_name = group.name;
+
+    let author = await UserModel.findOne({
+      loginid: topic.author_id
+    });
+    topic.avatar_url = author.avatar_url;
+
+    console.log(topic);
+
     ctx.body = ResponseResult.ok(topic);
   }
 }

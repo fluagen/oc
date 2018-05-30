@@ -43,7 +43,7 @@ let TopicSchema = new Schema({
 
   last_reply_id: { type: ObjectId },
   last_reply_author_id: { type: String },
-  last_reply_at: { type: Date, default: Date.now }
+  last_reply_at: { type: Date}
 });
 
 mongoose.model('Topic', TopicSchema);

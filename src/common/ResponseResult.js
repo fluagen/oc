@@ -5,6 +5,7 @@ class ResponseResult {
       code: 100000,
       data: data
     };
+    console.log(rst);
     return rst;
   }
 
