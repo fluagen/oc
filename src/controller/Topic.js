@@ -11,7 +11,6 @@ class Topic {
     if (topics) {
       topics = await Promise.all(
         topics.map(async topic => {
-
           let author = await UserModel.findOne({
             loginid: topic.author_id
           });
@@ -53,7 +52,6 @@ class Topic {
     //TODO 验证group_id是否存在
     let group_id = req.group_id;
 
-
     let topic = new TopicModel();
     topic.author_id = user.userid;
     topic.title = title;
@@ -65,10 +63,16 @@ class Topic {
 
   async get(ctx, next) {
     let tid = ctx.params.tid;
-    let topic = await TopicModel.findById(tid).lean().exec();
+    let topic = await TopicModel.findByIdAndUpdate(tid, {
+      $inc: {visit_count: 1}
+    })
+      .lean()
+      .exec();
     if (!topic) {
       ctx.throw(404);
     }
+    topic.visit_count = topic.visit_count + 1;
+
     let group = await GroupModel.findOne({ code: topic.group_id });
     topic.group_name = group.name;
 
