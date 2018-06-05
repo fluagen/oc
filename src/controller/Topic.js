@@ -1,5 +1,6 @@
 import { TopicModel, ReplyModel, UserModel, GroupModel } from '../model/index';
 import ResponseResult from '../common/ResponseResult';
+import topicService from '../service/topic';
 
 class Topic {
   async list(ctx, next) {
@@ -63,27 +64,14 @@ class Topic {
 
   async get(ctx, next) {
     let tid = ctx.params.tid;
-    let topic = await TopicModel.findByIdAndUpdate(tid, {
-      $inc: {visit_count: 1}
-    })
-      .lean()
-      .exec();
-    if (!topic) {
+    let rst = await topicService.getTopicById(tid);
+    console.log(rst);
+    if (!rst) {
       ctx.throw(404);
+    }else if(!rst.group){
+      ctx.throw(500);
     }
-    topic.visit_count = topic.visit_count + 1;
-
-    let group = await GroupModel.findOne({ code: topic.group_id });
-    topic.group_name = group.name;
-
-    let author = await UserModel.findOne({
-      loginid: topic.author_id
-    });
-    topic.avatar_url = author.avatar_url;
-
-    console.log(topic);
-
-    ctx.body = ResponseResult.ok(topic);
+    ctx.body = ResponseResult.ok(rst);
   }
 }
 
