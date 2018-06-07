@@ -21,7 +21,7 @@ app.use(cors());
 
 app.use(bodyParser());
 app.use(jwtKoa({secret: 'occc' }).unless({
-  path: [/^\/signin/, /^\/signup/, /^\/api/]
+  path: [/^\/signin/, /^\/signup/, /^\/public\/api/]
 }));
 
 app.use(async (ctx, next) => {

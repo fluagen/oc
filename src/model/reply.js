@@ -8,7 +8,7 @@ let ReplySchema = new Schema({
   author_id: { type: String },
   create_at: { type: Date, default: Date.now },
   update_at: { type: Date, default: Date.now },
-  ups: [Schema.Types.ObjectId]
+  ups: [Schema.Types.String]
 });
 
 mongoose.model('Reply', ReplySchema);
