@@ -15,12 +15,12 @@ router.get('/', (ctx, next) => {
   ctx.body = 'Hello World';
 });
 
-router.post('/signup', sign.signup);
-router.post('/signin', sign.signin);
+router.post('/api/signup', sign.signup);
+router.post('/api/signin', sign.signin);
 
-router.get('/api/topics', topic.list);
-router.get('/api/topic/:tid', topic.get);
-router.post('/topic', topic.put);
+router.get('/public/api/topics', topic.list);
+router.get('/public/api/topic/:tid', topic.get);
+router.post('/api/topic', topic.put);
 
 router.post('/group', group.put);
 
