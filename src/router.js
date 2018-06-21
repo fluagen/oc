@@ -15,8 +15,8 @@ router.get('/', (ctx, next) => {
   ctx.body = 'Hello World';
 });
 
-router.post('/api/signup', sign.signup);
-router.post('/api/signin', sign.signin);
+router.post('/signup', sign.signup);
+router.post('/signin', sign.signin);
 
 router.get('/public/api/topics', topic.list);
 router.get('/public/api/topic/:tid', topic.get);
