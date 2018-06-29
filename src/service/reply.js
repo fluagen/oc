@@ -1,4 +1,5 @@
 import { ReplyModel } from '../model/index';
+import userService from './user';
 
 class ReplyService {
   async getRepliesByTid(tid) {
@@ -8,6 +9,15 @@ class ReplyService {
       .exec();
 
     return replies;
+  }
+
+  async getReplyById(id) {
+    let reply = await ReplyModel.findById(id).exec();
+    if(reply){
+      let author = await userService.getUserById(reply.author_id);
+      reply.author = author;
+    }
+    return reply;
   }
   add(tid, r_content, user_id) {
     let reply = new ReplyModel();

@@ -8,33 +8,25 @@ class TopicService {
     const topic = await TopicModel.findByIdAndUpdate(id, {
       $inc: { visit_count: 1 }
     })
-      .lean()
       .exec();
     if (!topic) {
-      return {
-        topic: null,
-        group: null
-      };
+      return null;
     }
-
     const promises = [];
     promises.push(userService.getUserById(topic.author_id));
-    promises.push(groupService.getSimpleGroupByCode(topic.group_id));
-    promises.push(replyService.getRepliesByTid(topic._id));
+    promises.push(groupService.getGroupByCode(topic.group_id));
+    promises.push(replyService.getReplyById(topic.last_reply_id));
 
-    const [user, group, replies] = await Promise.all(promises);
+    const [author, group, last_reply] = await Promise.all(promises);
+    topic.author = author;
+    topic.group = group;
+    topic.last_reply = last_reply;
 
-    topic.avatar_url = user.avatar_url;
-
-    return {
-      topic,
-      group,
-      replies
-    };
+    return topic;
   }
 
   updateLastReply(tid, reply_id, reply_author_id, reply_at) {
-    TopicModel.findByIdAndUpdate(tid, {
+    const topic = TopicModel.findByIdAndUpdate(tid, {
       last_reply_id: reply_id,
       last_reply_author_id: reply_author_id,
       last_reply_at: reply_at

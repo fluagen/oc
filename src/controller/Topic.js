@@ -64,13 +64,41 @@ class Topic {
 
   async get(ctx, next) {
     let tid = ctx.params.tid;
-    let rst = await topicService.getTopicById(tid);
+    let topic = await topicService.getTopicById(tid);
+
+    const rst = {
+      id: topic._id,
+      title: topic.title,
+      t_content: topic.t_content,
+      visit_count: topic.visit_count,
+      create_at: topic.create_at,
+      author: {
+        id: topic.author.loginid,
+        avatar_url: topic.author.avatar_url
+      },
+      category: {
+        code: topic.group.code,
+        name: topic.group.name
+      }
+    };
+
+    if (topic.last_reply) {
+      const last_reply = topic.last_reply;
+      rst.last_reply = {
+        id: last_reply._id,
+        author_id: last_reply.author.loginid,
+        author_avatar_url: last_reply.author.avatar_url,
+        reply_at: topic.last_reply_at
+      };
+    }
+
     console.log(rst);
+
+
     if (!rst) {
       ctx.throw(404);
-    }else if(!rst.group){
-      ctx.throw(500);
     }
+
     ctx.body = ResponseResult.ok(rst);
   }
 }
